@@ -6,6 +6,7 @@
 	<property name="source.dir" value="src" />
 	<property name="jar.dir" value="build/jar" />
 	<property name="jar.name" value="${ant.project.name}.jar" />
+	<property name="version" value="1.0" />
 
 
 	<path id="JUnit4.libraryclasspath">
@@ -109,7 +110,7 @@
 		</git>
 		<git command="commit">
 			<args>
-				<arg value="-am ${commit-message}" />
+				<arg value="-am deploy-${ant.project.name}-${version}" />
 			</args>
 		</git>
 		<git command="push">
