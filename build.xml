@@ -112,7 +112,12 @@
 				<arg value="-am ${commit-message}" />
 			</args>
 		</git>
-		<git command="push" />
+		<git command="push">
+			<args>
+				<arg value="origin" />
+				<arg value="master" />
+			</args>
+		</git>
 	</target>
 
 </project>
