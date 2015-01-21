@@ -15,6 +15,6 @@ public class Hello {
 	 * @return hello world
 	 */
 	public static String getString() {
-		return "%helloworldtext%";
+		return "nuqneH qo'";
 	}
 }

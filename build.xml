@@ -7,6 +7,7 @@
 	<property name="jar.dir" value="build/jar" />
 	<property name="jar.name" value="${ant.project.name}.jar" />
 	<property name="version" value="1.0" />
+	<property name="translated.dir" value="build/src" />
 
 
 	<path id="JUnit4.libraryclasspath">
@@ -27,7 +28,7 @@
 
 	<target name="compile">
 		<mkdir dir="${classes.dir}" />
-		<javac srcdir="src" destdir="${classes.dir}" />
+		<javac srcdir="${translated.dir}" destdir="${classes.dir}" />
 	</target>
 
 	<target name="jar" depends="compile, test, doc">
@@ -38,8 +39,11 @@
 			</manifest>
 			<fileset dir="." includes="${doc.dir}/**" />
 			<fileset dir="." includes="${junit.output.dir}/**" />
-			<fileset dir="${source.dir}" includes="**/*.java" />
+			<fileset dir="${classes.dir}" includes="**/*.java" />
 		</jar>
+		<!-- Das ist hier auskomentiert, da der Build fehl schlaegt, 
+		wenn kein Email-Passwort im XML angegeben ist -->
+		<!--<antcall target="mailto"/> -->
 	</target>
 
 	<target name="run" depends="jar">
@@ -117,6 +121,56 @@
 				<arg value="master" />
 			</args>
 		</git>
+	</target>
+
+	<target name="mailto">
+		<mail mailhost="sophos.tgm.ac.at" mailport="465" ssl="true" subject="BUILD" charset="utf-8" user="swortha" password="pw" failonerror="true">
+			<from address="swortha@student.tgm.ac.at" />
+			<to address="swortha@student.tgm.ac.at" />
+			<message>Your build is ready</message>
+		</mail>
+	</target>
+
+	<target name="lang-de">
+		<translate toDir="${translated.dir}" starttoken="%" endtoken="%" bundle="languages/lang-de" bundlelanguage="de" forceoverwrite="yes" srcencoding="utf-8" destencoding="utf-8" bundleencoding="utf-8">
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+		</translate>
+	</target>
+
+	<target name="lang-en">
+		<translate toDir="${translated.dir}" starttoken="%" endtoken="%" bundle="languages/lang-en" bundlelanguage="en" forceoverwrite="yes" srcencoding="utf-8" destencoding="utf-8" bundleencoding="utf-8">
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+		</translate>
+	</target>
+
+	<target name="lang-klingon">
+		<translate toDir="${translated.dir}" starttoken="%" endtoken="%" bundle="languages/lang-klingon" bundlelanguage="en" forceoverwrite="yes" srcencoding="utf-8" destencoding="utf-8" bundleencoding="utf-8">
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+		</translate>
+	</target>
+
+	<target name="main-de" depends="clean,lang-de">
+		<antcall target="jar" />
+		<antcall target="test" />
+		<antcall target="doc" />
+	</target>
+
+	<target name="main-en" depends="clean,lang-en">
+		<antcall target="jar" />
+		<antcall target="test" />
+		<antcall target="doc" />
+	</target>
+
+	<target name="main-klingon" depends="clean,lang-klingon">
+		<antcall target="jar" />
+		<antcall target="test" />
+		<antcall target="doc" />
 	</target>
 
 </project>

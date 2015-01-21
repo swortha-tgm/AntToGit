@@ -16,7 +16,7 @@ public class HelloTest {
 	 */
 	@Test
 	public void testgetString() {
-		assertEquals("%helloworldtext%", Hello.getString());
+		assertEquals("nuqneH qo'", Hello.getString());
 	}
 
 }
